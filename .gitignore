@@ -22,3 +22,10 @@
 
 *.swp
 .directory
+
+GoldenOculus/Binaries/*
+GoldenOculus/Intermediate/*
+GoldenOculus/Saved/*
+
+*.sdf
+*.suo
