@@ -30,3 +30,6 @@ GoldenOculus/Saved/*
 *.sdf
 *.suo
 *.sln
+*.opensdf
+*.fbx
+*.blend1
