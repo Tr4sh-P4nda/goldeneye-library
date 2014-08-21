@@ -1,0 +1,14 @@
+{
+	"FileVersion": 3,
+	"Version": 0,
+	"VersionName": "0.0",
+	"EngineAssociation": "4.3",
+	"Modules": [
+		{
+			"Name": "GoldenOculus",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"EpicSampleNameHash": "0"
+}
