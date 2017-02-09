@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html style='height: 100%'>
+    <head>
+        <title>Library Test</title>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.js'></script>
+        <script src='https://rawgit.com/mrdoob/three.js/dev/examples/js/loaders/GLTFLoader.js'></script>
+        <script src="http://sdk.altvr.com/libs/altspace.js/0.28.1/altspace.min.js"></script>
+    </head>
+    <body style='height: 100%; margin: 0'>
+        <script>
+            function LoaderPromise(url){
+            	return new Promise(function(resolve, reject){
+            		var loader = new THREE.GLTFLoader();
+            		loader.setCrossOrigin('anonymous');
+            		loader.load(url,
+            			function(result){
+                            console.log(result);
+            				var model = result.scene.children[0];
+            				model.matrixAutoUpdate = true;
+            				resolve(result);
+            			},
+            			undefined,
+            			function(err){
+            				reject(err);
+            			}
+            		);
+            	});
+            }
+
+            /*var scene = null;
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(document.body.clientWidth, document.body.clientHeight);
+			renderer.setClearColor( 0x808080 );
+			document.body.appendChild(renderer.domElement);
+
+			var previewCamera = null;
+
+            window.requestAnimationFrame(function animate(timestamp){
+                window.requestAnimationFrame(animate);
+                if(scene && previewCamera)
+                    renderer.render(scene, previewCamera);
+            });*/
+
+            var sim = new altspace.utilities.Simulation();
+            sim.camera.fov = 60;
+            sim.camera.updateProjectionMatrix();
+
+            var modelPromise = new LoaderPromise(
+                //'https://rawgit.com/KhronosGroup/glTF-Sample-Models/master/1.0/Duck/glTF-MaterialsCommon/Duck.gltf'
+                'models/library.gltf'
+            );
+            //Promise.all([altspace.getEnclosure(), modelPromise])
+            modelPromise
+            .then(function(result)
+            {
+                //var enc = results[0];
+                //scene.scale.setScalar(enc.pixelsPerMeter);
+
+                sim.scene.add.apply(sim.scene, result.scene.children);
+                //result.cameras[1].updateMatrix();
+                sim.scene.updateMatrixWorld(true);
+                result.cameras[0].parent.getWorldPosition(sim.camera.position);
+                result.cameras[0].parent.getWorldQuaternion(sim.camera.quaternion);
+                //previewCamera = result.cameras[1];
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+        </script>
+    </body>
+</html>
